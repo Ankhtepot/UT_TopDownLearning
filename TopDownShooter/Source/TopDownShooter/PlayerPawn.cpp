@@ -18,6 +18,8 @@ void APlayerPawn::BeginPlay()
 	Super::BeginPlay();
 
 	PlayerController = Cast<APlayerController>(GetController());
+	PlayerStartLocalPosition = GetActorLocation();
+	PlayerRightVector = GetActorRightVector();
 }
 
 void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -25,11 +27,25 @@ void APlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	PlayerInputComponent->BindAxis(TEXT("Move"), this, &APlayerPawn::Move);
+	PlayerInputComponent->BindAction(TEXT("Shoot"), IE_Pressed, this, &APlayerPawn::Shoot);
 }
 
-void APlayerPawn::Move(const float Value)
+void APlayerPawn::Move(const float AxisValue)
 {
-	float VerticalMovement = Value * Speed * GetWorld()->DeltaTimeSeconds;
-	const FVector DeltaMovement = FVector(0, VerticalMovement, 0);
-	AddActorLocalOffset(DeltaMovement);
+	const FVector DeltaMovement = AxisValue * Speed * GetWorld()->DeltaTimeSeconds * PlayerRightVector;
+	const FVector DesiredLocation = GetActorLocation() + DeltaMovement;
+
+	FVector OffsetFromStart = DesiredLocation - PlayerStartLocalPosition;
+	OffsetFromStart.Z = 0.0f;
+	const float SquaredDistance = OffsetFromStart.SizeSquared();
+
+	if (const float SquaredMaxDistance = MaxHorizontalDistance * MaxHorizontalDistance; SquaredDistance <= SquaredMaxDistance)
+	{
+		SetActorLocation(DesiredLocation);
+	}
+}
+
+void APlayerPawn::Shoot()
+{
+	
 }

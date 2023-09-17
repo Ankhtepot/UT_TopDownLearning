@@ -33,5 +33,13 @@ private:
 	UPROPERTY(EditAnywhere)
 	float Speed = 100.f;
 
-	void Move(float Value);
+	UPROPERTY(EditAnywhere)
+	float MaxHorizontalDistance = 500.f;
+
+	UPROPERTY()
+	FVector PlayerStartLocalPosition;
+	FVector PlayerRightVector;
+
+	void Move(float AxisValue);
+	void Shoot();
 };
