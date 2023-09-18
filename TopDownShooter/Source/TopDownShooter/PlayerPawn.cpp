@@ -3,6 +3,8 @@
 
 #include "PlayerPawn.h"
 
+#include "Projectile.h"
+
 APlayerPawn::APlayerPawn()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -47,5 +49,13 @@ void APlayerPawn::Move(const float AxisValue)
 
 void APlayerPawn::Shoot()
 {
+	if (ProjectileClass == nullptr)
+		return;
 	
+	const FRotator Rotation = GetActorForwardVector().Rotation();
+	const FVector Location = ProjectileSpawnPoint->GetComponentLocation();
+	UE_LOG(LogTemp, Warning, TEXT("Fire!"));
+	DrawDebugSphere(GetWorld(), Location, 20, 12, FColor::Red, false, 3.f, 0.f, 0.5f);
+	AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileClass, Location, Rotation);
+	Projectile->SetOwner(this);
 }
