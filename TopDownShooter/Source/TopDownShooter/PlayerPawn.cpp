@@ -50,7 +50,10 @@ void APlayerPawn::Move(const float AxisValue)
 void APlayerPawn::Shoot()
 {
 	if (ProjectileClass == nullptr)
+	{
+		UE_LOG(LogTemp, Error, TEXT("PlayerPawn: No projectile class found!"));
 		return;
+	}
 	
 	const FRotator Rotation = GetActorForwardVector().Rotation();
 	const FVector Location = ProjectileSpawnPoint->GetComponentLocation();
@@ -58,4 +61,21 @@ void APlayerPawn::Shoot()
 	// DrawDebugSphere(GetWorld(), Location, 20, 12, FColor::Red, false, 3.f, 0.f, 0.5f);
 	AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileClass, Location, Rotation);
 	Projectile->SetOwner(this);
+}
+
+void APlayerPawn::NotifyHit(
+	UPrimitiveComponent* MyComp,
+	AActor* Other,
+	UPrimitiveComponent* OtherComp,
+	bool bSelfMoved,
+	FVector HitLocation,
+	FVector HitNormal,
+	FVector NormalImpulse,
+	const FHitResult& Hit)
+{
+	Super::NotifyHit(MyComp, Other, OtherComp, bSelfMoved, HitLocation, HitNormal, NormalImpulse, Hit);
+
+	// React to the collision here
+	// Example: Print a message when collision occurs
+	UE_LOG(LogTemp, Warning, TEXT("Collision with %s"), *Other->GetName());
 }
