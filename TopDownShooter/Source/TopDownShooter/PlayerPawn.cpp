@@ -3,6 +3,7 @@
 
 #include "PlayerPawn.h"
 
+#include "EnemyPawn.h"
 #include "Projectile.h"
 
 APlayerPawn::APlayerPawn()
@@ -43,7 +44,8 @@ void APlayerPawn::Move(const float AxisValue)
 
 	if (const float SquaredMaxDistance = MaxHorizontalDistance * MaxHorizontalDistance; SquaredDistance <= SquaredMaxDistance)
 	{
-		SetActorLocation(DesiredLocation);
+		SetActorLocation(DesiredLocation, true);
+		// AddActorWorldOffset(DeltaMovement, true);
 	}
 }
 
@@ -63,19 +65,26 @@ void APlayerPawn::Shoot()
 	Projectile->SetOwner(this);
 }
 
-void APlayerPawn::NotifyHit(
-	UPrimitiveComponent* MyComp,
-	AActor* Other,
-	UPrimitiveComponent* OtherComp,
-	bool bSelfMoved,
-	FVector HitLocation,
-	FVector HitNormal,
-	FVector NormalImpulse,
-	const FHitResult& Hit)
+void APlayerPawn::NotifyActorBeginOverlap(AActor* OtherActor)
 {
-	Super::NotifyHit(MyComp, Other, OtherComp, bSelfMoved, HitLocation, HitNormal, NormalImpulse, Hit);
+	Super::NotifyActorBeginOverlap(OtherActor);
 
-	// React to the collision here
-	// Example: Print a message when collision occurs
-	UE_LOG(LogTemp, Warning, TEXT("Collision with %s"), *Other->GetName());
+	// UE_LOG(LogTemp, Warning, TEXT("Collision NotifyActorBeingOverlap with %s"), *OtherActor->GetName());
+
+	AEnemyPawn* Enemy = Cast<AEnemyPawn>(OtherActor);
+
+	if (Enemy == nullptr)
+		return;
+
+	Enemy->OnOverlapWithPlayer(GetActorLocation(), this);
+}
+
+float APlayerPawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
+	AActor* DamageCauser)
+{
+	float baseDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+	UE_LOG(LogTemp, Warning, TEXT("PlayerPawn: TakeDamage! %f"), DamageAmount);
+
+	return baseDamage;
 }

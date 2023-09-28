@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "BasePawn.h"
+#include "PlayerPawn.h"
 #include "EnemyPawn.generated.h"
 
 /**
@@ -22,11 +23,16 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	
+	void OnOverlapWithPlayer(const FVector& Vector, APlayerPawn* PlayerPawn);
 
 private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess = "true"))
 	float MoveSpeed = 100.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess = "true"))
+	float ContactDamage = 100.f;
 
 	UPROPERTY()
 	FVector InitialMoveDirection;

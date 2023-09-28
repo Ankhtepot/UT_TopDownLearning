@@ -22,6 +22,7 @@ public:
 	
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const &DamageEvent, AController *EventInstigator, AActor *DamageCauser) override;
 
 protected:
 	virtual void BeginPlay() override;
@@ -42,7 +43,6 @@ private:
 
 	void Move(float AxisValue);
 	void Shoot();
-	
-	virtual void NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveComponent* OtherComp, bool bSelfMoved,
-	                       FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit) override;
+
+	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 };

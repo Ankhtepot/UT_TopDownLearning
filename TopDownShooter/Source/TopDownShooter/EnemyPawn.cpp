@@ -3,6 +3,8 @@
 
 #include "EnemyPawn.h"
 
+#include "Engine/DamageEvents.h"
+
 void AEnemyPawn::BeginPlay()
 {
 	Super::BeginPlay();
@@ -23,7 +25,7 @@ void AEnemyPawn::Move(float DeltaTime)
 	SetActorLocation(Location + MoveVector);
 	// UE_LOG(LogTemp, Warning, TEXT("EnemyMove: NewLocation: %s"), *GetActorLocation().ToString());
 	// Log BaseMesh Location and Actor Location
-	UE_LOG(LogTemp, Warning, TEXT("BaseMesh Location: %s, Actor Location: %s"), *BaseMesh->GetComponentLocation().ToString(), *GetActorLocation().ToString());
+	// UE_LOG(LogTemp, Warning, TEXT("BaseMesh Location: %s, Actor Location: %s"), *BaseMesh->GetComponentLocation().ToString(), *GetActorLocation().ToString());
 }
 
 void AEnemyPawn::Tick(float DeltaTime)
@@ -31,4 +33,16 @@ void AEnemyPawn::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	
 	Move(DeltaTime);
+}
+
+void AEnemyPawn::OnOverlapWithPlayer(const FVector& Vector, APlayerPawn* PlayerPawn)
+{
+	UE_LOG(LogTemp, Warning, TEXT("EnemyPawn: Overlap with player!"));
+	if (PlayerPawn == nullptr)
+	{
+		UE_LOG(LogTemp, Error, TEXT("EnemyPawn: No player pawn found!"));
+		return;
+	}
+
+	PlayerPawn->TakeDamage(ContactDamage, FDamageEvent(), nullptr, this);
 }
