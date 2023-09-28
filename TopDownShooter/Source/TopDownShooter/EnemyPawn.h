@@ -34,7 +34,7 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess = "true"))
 	float ContactDamage = 100.f;
 
-	UPROPERTY()
-	FVector InitialMoveDirection;
+	// UPROPERTY()
+	// FVector InitialMoveDirection;
 	
 };
