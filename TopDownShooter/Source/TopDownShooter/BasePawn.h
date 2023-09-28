@@ -6,8 +6,6 @@
 #include "GameFramework/Pawn.h"
 #include "BasePawn.generated.h"
 
-class UGun;
-
 UCLASS()
 class TOPDOWNSHOOTER_API ABasePawn : public APawn
 {
@@ -25,6 +23,14 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	virtual void HandleDestruction();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UParticleSystem* DeathParticles;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* DeathSound;
+
 private:
 
 protected:
@@ -39,6 +45,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	USceneComponent* ProjectileSpawnPoint;
+
+	UPROPERTY(EditAnywhere, Category= "Combat")
+	TSubclassOf<UCameraShakeBase> DeathCameraShakeClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Combat")
 	TSubclassOf<class AProjectile> ProjectileClass;

@@ -15,7 +15,7 @@ class TOPDOWNSHOOTER_API ATopDownShooterGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 
 public:
-	void ActorDied(AActor* DeadActor);
+	void ActorDied(AActor* DeadActor) const;
 
 protected:
 	virtual void BeginPlay() override;
