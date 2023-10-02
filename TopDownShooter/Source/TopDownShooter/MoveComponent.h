@@ -20,6 +20,10 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+	FVector InitialMoveDirection;
+
+	virtual void Move(float DeltaTime);
+	
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -27,8 +31,4 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float MoveSpeed = 100.f;
 
-private:
-	virtual void Move(float DeltaTime);
-
-	FVector InitialMoveDirection;
 };

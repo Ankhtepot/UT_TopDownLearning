@@ -14,7 +14,7 @@ void AEnemyPawn::BeginPlay()
 void AEnemyPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
+
 	// Move(DeltaTime);
 }
 
@@ -29,7 +29,9 @@ void AEnemyPawn::OnOverlapWithPlayer(const FVector& Vector, APlayerPawn* PlayerP
 
 	PlayerPawn->TakeDamage(ContactDamage, FDamageEvent(), nullptr, this);
 
-	ATopDownShooterGameModeBase* GameMode = Cast<ATopDownShooterGameModeBase>(GetWorld()->GetAuthGameMode());
-
-	GameMode->ActorDied(this);
+	if (const ATopDownShooterGameModeBase* GameMode = Cast<ATopDownShooterGameModeBase>(GetWorld()->GetAuthGameMode());
+		GameMode != nullptr)
+	{
+		GameMode->ActorDied(this);
+	}
 }

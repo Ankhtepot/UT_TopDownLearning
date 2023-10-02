@@ -69,7 +69,7 @@ void AEnemySpawner::SpawnEnemy()
 	}
 	const FVector Location = SpawnPoint->GetComponentLocation();
 	UE_LOG(LogTemp, Warning, TEXT("Spawn enemy at %s"), *Location.ToString());
-	ABasePawn* Enemy = GetWorld()->SpawnActor<ABasePawn>(EnemyClass, Location, FRotator::ZeroRotator);
+	ABasePawn* Enemy = GetWorld()->SpawnActor<ABasePawn>(EnemyClass, Location, GetActorRotation());
 	
 }
 
