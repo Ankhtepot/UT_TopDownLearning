@@ -9,7 +9,7 @@
 // Sets default values
 AEnemySpawner::AEnemySpawner()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Base Root"));
@@ -24,28 +24,28 @@ void AEnemySpawner::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (SpawnEffect == nullptr)
+	if (SpawnEffect != nullptr)
+	{
+		UGameplayStatics::SpawnEmitterAtLocation(this, SpawnEffect, GetActorLocation());
+	}
+	else
 	{
 		UE_LOG(LogTemp, Error, TEXT("No spawn effect found!"));
-		return;	
 	}
 
-	SetHeightToPlayer();
-
-	UGameplayStatics::SpawnEmitterAtLocation(this, SpawnEffect, GetActorLocation());
+	// SetHeightToPlayer();
 }
 
 // Called every frame
 void AEnemySpawner::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void AEnemySpawner::SetHeightToPlayer()
 {
 	const APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
-	
+
 	if (!PlayerPawn)
 	{
 		UE_LOG(LogTemp, Error, TEXT("No player pawn found!"));
@@ -70,6 +70,4 @@ void AEnemySpawner::SpawnEnemy()
 	const FVector Location = SpawnPoint->GetComponentLocation();
 	UE_LOG(LogTemp, Warning, TEXT("Spawn enemy at %s"), *Location.ToString());
 	ABasePawn* Enemy = GetWorld()->SpawnActor<ABasePawn>(EnemyClass, Location, GetActorRotation());
-	
 }
-

@@ -3,8 +3,15 @@
 
 #include "EnemyPawn.h"
 
+#include "HealthComponent.h"
 #include "TopDownShooterGameModeBase.h"
 #include "Engine/DamageEvents.h"
+
+AEnemyPawn::AEnemyPawn()
+{
+	// PrimaryActorTick.bCanEverTick = true;
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
+}
 
 void AEnemyPawn::BeginPlay()
 {
@@ -14,8 +21,6 @@ void AEnemyPawn::BeginPlay()
 void AEnemyPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	// Move(DeltaTime);
 }
 
 void AEnemyPawn::OnOverlapWithPlayer(const FVector& Vector, APlayerPawn* PlayerPawn)

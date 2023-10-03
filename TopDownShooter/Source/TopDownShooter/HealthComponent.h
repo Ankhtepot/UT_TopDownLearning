@@ -26,14 +26,16 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	UFUNCTION(BlueprintCallable)
+	float GetHealth() const { return Health/MaxHealth * 100; }
+
 private:
 	UPROPERTY()
 	ATopDownShooterGameModeBase* TopDownShooterGameModeBase;
 
 	UPROPERTY(EditAnywhere)
 	float MaxHealth = 100.f;
-
-	UPROPERTY()
+	
 	float Health = 0.f;
 
 	UFUNCTION()

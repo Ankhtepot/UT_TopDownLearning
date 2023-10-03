@@ -18,13 +18,17 @@ class TOPDOWNSHOOTER_API AEnemyPawn : public ABasePawn
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	void Move(float DeltaTime);
 
-public:	
+public:
+	AEnemyPawn();
+	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	
 	void OnOverlapWithPlayer(const FVector& Vector, APlayerPawn* PlayerPawn);
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	class UHealthComponent* HealthComponent;
 
 private:
 
@@ -33,8 +37,5 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(AllowPrivateAccess = "true"))
 	float ContactDamage = 100.f;
-
-	// UPROPERTY()
-	// FVector InitialMoveDirection;
 	
 };
