@@ -27,7 +27,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION(BlueprintCallable)
-	float GetHealth() const { return Health/MaxHealth * 100; }
+	float GetHealthPercentage() const { return Health/MaxHealth; }
 
 private:
 	UPROPERTY()
