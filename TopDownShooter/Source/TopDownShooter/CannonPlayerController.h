@@ -13,5 +13,15 @@ UCLASS()
 class TOPDOWNSHOOTER_API ACannonPlayerController : public APlayerController
 {
 	GENERATED_BODY()
+
+protected:
+	virtual void BeginPlay() override;
+
+private:
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UUserWidget> HUDClass;
+	
+	UPROPERTY()
+	UUserWidget* HUD;
 	
 };
